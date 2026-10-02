@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101412">
+  <meta name="description" content="Inteligência geográfica para a prospecção B2B da Pamda Cases.">
+  <title>PAMDA | Mapa B2B</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%237de0a1'/%3E%3Ctext x='12' y='29' font-size='27' font-family='Arial' font-weight='bold'%3EP%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./vendor/leaflet.css">
+  <link rel="stylesheet" href="./vendor/MarkerCluster.css">
+  <link rel="stylesheet" href="./src/styles.css">
+  <script defer src="./vendor/leaflet.js"></script>
+  <script defer src="./vendor/leaflet.markercluster.js"></script>
+  <script type="module" src="./src/bootstrap.js"></script>
+</head>
+<body>
+  <svg class="svg-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><symbol id="i-map" viewBox="0 0 24 24"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Zm6-3v15m6-12v15"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V4h6l3 3h9v13H3V7Zm0 3h18"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M4 3h13l4 4v14H3V3h1Zm3 0v7h10V3M7 21v-7h10v7"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></symbol><symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18M8 3v6m8 0v6M9 15v6"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 1v4m0 14v4M1 12h4m14 0h4"/></symbol></svg>
+  <section id="loginView" class="login-view" aria-label="Login Pamda">
+    <form id="loginForm" class="login-card">
+      <span class="brand-name">PAMDA<span class="brand-dot">.</span></span>
+      <h1>Mapa B2B</h1><p>Entre para acessar sua base comercial.</p>
+      <label for="loginEmail">E-mail</label><input id="loginEmail" type="email" autocomplete="username" required>
+      <label for="loginPassword">Senha</label><input id="loginPassword" type="password" autocomplete="current-password" required>
+      <p id="loginError" class="form-error" role="alert" hidden></p>
+      <button id="loginSubmit" type="submit" class="btn primary" disabled>Entrar</button>
+    </form>
+  </section>
+  <div id="appRoot" hidden>
+  <aside class="rail" aria-label="PAMDA"><a class="brand-symbol" href="./" aria-label="PAMDA início">p<span>•</span></a><div class="rail-map" title="Mapa de prospecção"><svg><use href="#i-map"/></svg></div><span class="rail-bottom">B2B</span></aside>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-name">PAMDA<span class="brand-dot">.</span></span><span class="brand-divider"></span><div><h1>Mapa B2B</h1><p>INTELIGÊNCIA COMERCIAL</p></div></div>
+      <div class="file-actions">
+        <span id="sessionEmail" class="muted"></span>
+        <button id="refreshBtn" class="btn">Atualizar lojas</button>
+        <button id="exportBtn" class="btn"><svg><use href="#i-download"/></svg>Exportar base</button>
+        <button id="logoutBtn" class="btn">Sair</button>
+      </div>
+    </header>
+    <section class="workspace-heading"><div><span class="eyebrow">SEU PRÓXIMO CLIENTE ESTÁ NO MAPA</span><h2>Território de oportunidades<span>.</span></h2></div><div class="source-info"><span id="sourceName">Carregando base…</span><span id="saveState" role="status">Aguarde</span></div></section>
+    <div id="notice" class="notice" role="status" hidden><span id="noticeText"></span><button id="dismissNotice" aria-label="Fechar aviso">×</button></div>
+    <div id="backupWarning" class="notice warning" role="alert" hidden></div>
+    <section class="metrics" aria-label="Indicadores dos leads filtrados">
+      <div><span class="metric-label">Leads <i class="dot neutral"></i></span><strong id="kTotal">—</strong><small>na seleção atual</small></div>
+      <div><span class="metric-label">Com WhatsApp <i class="dot green"></i></span><strong id="kWa">—</strong><small>prontos para conversar</small></div>
+      <div><span class="metric-label">Não contatados <i class="dot slate"></i></span><strong id="kNew">—</strong><small>novas oportunidades</small></div>
+      <div><span class="metric-label">Interessados <i class="dot violet"></i></span><strong id="kInterested">—</strong><small>em negociação</small></div>
+      <div><span class="metric-label">Clientes <i class="dot mint"></i></span><strong id="kClients">—</strong><small>primeiro pedido ou mais</small></div>
+    </section>
+    <section class="filter-section" aria-label="Filtros de prospecção">
+      <div class="filter-main"><label class="search-box"><svg><use href="#i-search"/></svg><input id="search" type="search" placeholder="Buscar loja, endereço, telefone…" aria-label="Buscar leads"></label>
+        <label class="compact-field">Área<select id="area"><option value="">Todas as áreas</option></select></label>
+        <label class="compact-field">Cidade<select id="city"><option value="">Todas as cidades</option></select></label>
+        <label class="compact-field">Regional<select id="regional"><option value="">Todas as regionais</option></select></label>
+        <label class="compact-field">Status<select id="status"><option value="">Todos os status</option></select></label>
+        <button id="filtersBtn" class="btn" aria-expanded="false" aria-controls="extraFilters"><svg><use href="#i-filter"/></svg>Mais filtros<span id="filterCount" class="filter-count" hidden></span></button>
+      </div>
+      <div id="extraFilters" class="extra-filters" hidden><label>Bairro<select id="bairro"><option value="">Todos os bairros</option></select></label><label>WhatsApp<select id="contact"><option value="">Com e sem WhatsApp</option><option value="wa">Com WhatsApp</option><option value="no-wa">Sem WhatsApp</option></select></label><label>Qualificação<select id="qualification"><option value="">Todas as qualificações</option></select></label><label>Prioridade<select id="priority"><option value="">Todas as prioridades</option></select></label></div>
+      <div class="quick-filters"><span class="quick-label">FOCO</span><button data-quick="untouched" aria-pressed="false">Não contatados</button><button data-quick="whatsapp" aria-pressed="false">Com WhatsApp</button><button data-quick="clients" aria-pressed="false">Clientes</button><button data-quick="review" aria-pressed="false">Para revisar</button><button id="clearFilters" class="clear-filters">Limpar filtros</button><span id="mappedCount" class="mapped-count"></span></div>
+    </section>
+    <main class="main-layout">
+      <section class="map-panel" aria-label="Mapa de prospecção">
+        <div id="map" aria-label="Mapa de leads e limites geográficos"></div>
+        <div class="map-toolbar"><div class="map-view-label"><span class="live-dot"></span> VISÃO GEOGRÁFICA</div><button id="fitBtn" class="btn icon-only" title="Enquadrar leads" aria-label="Enquadrar leads"><svg><use href="#i-target"/></svg></button></div>
+        <div class="region-picker"><label for="regionSelect">Explorar uma região</label><select id="regionSelect"><option value="">Selecione no mapa ou aqui</option></select></div>
+        <section id="regionSummary" class="region-summary" aria-label="Resumo da região" hidden><div><span id="regionKind" class="eyebrow"></span><button id="clearRegion">Limpar região ×</button></div><h3 id="regionName"></h3><div id="regionStats" class="region-stats"></div><p>Valores da seleção, incluindo os filtros.</p></section>
+        <details class="map-legend"><summary>Legenda dos status <span>⌃</span></summary><div id="legend"></div></details>
+        <button id="mobileListBtn" class="btn primary">Ver leads</button>
+      </section>
+      <aside id="leadsPanel" class="leads-panel" aria-label="Lista de leads"><header><div><span class="eyebrow">SUA ÁREA DE TRABALHO</span><h2>Leads <span id="listCount">0</span></h2></div><button id="closeListBtn" class="icon-only" aria-label="Fechar lista">×</button></header><div id="leadList" class="lead-list"><p class="empty">Carregando sua base…</p></div><footer class="list-pagination"><button id="prevPage" aria-label="Página anterior">←</button><span id="pageInfo"></span><button id="nextPage" aria-label="Próxima página">→</button></footer></aside>
+    </main>
+    <footer class="app-footer"><span><i class="live-dot"></i> Base autenticada · Supabase</span><span id="geoCredit">Limites oficiais · IPPUC / IBGE</span></footer>
+  </div>
+  </div>
+  <dialog id="leadDialog" aria-labelledby="dialogTitle"><form id="leadForm"><header class="dialog-header"><div><span class="eyebrow">RELACIONAMENTO COMERCIAL</span><h2 id="dialogTitle">Editar lead</h2></div><button id="closeDialog" type="button" class="icon-only" aria-label="Fechar edição">×</button></header><div class="dialog-body"><p id="leadIdentity" class="muted"></p><div id="formFields" class="form-grid"></div><p id="formError" class="form-error" role="alert" hidden></p></div><footer class="dialog-footer"><span>As alterações serão salvas no Supabase.</span><button type="button" id="cancelEdit" class="btn">Cancelar</button><button type="submit" class="btn primary">Salvar alterações</button></footer></form></dialog>
+  <dialog id="confirmDialog" aria-labelledby="confirmTitle"><div class="confirm-body"><span class="eyebrow">SUA BASE, SEU CONTROLE</span><h2 id="confirmTitle"></h2><p id="confirmMessage"></p><div class="confirm-actions"><button id="confirmNo" class="btn">Cancelar</button><button id="confirmYes" class="btn primary">Continuar</button></div></div></dialog>
+  <noscript>Ative o JavaScript para usar o mapa e editar sua base.</noscript>
+</body>
+</html>

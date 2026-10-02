@@ -1,0 +1,7 @@
+{
+  "source": "https://www.amep.pr.gov.br/Pagina/Sobre-RM-de-Curitiba",
+  "capital": "Curitiba",
+  "regionalAliases": { "MATRIZ": ["MATRIZ", "CENTRO"] },
+  "cityAliases": { "Almirante Tamandaré": ["Almirante Tamandaré", "Alm. Tamandaré"] },
+  "municipalities": ["Curitiba", "Adrianópolis", "Agudos do Sul", "Almirante Tamandaré", "Araucária", "Balsa Nova", "Bocaiúva do Sul", "Campina Grande do Sul", "Campo do Tenente", "Campo Largo", "Campo Magro", "Cerro Azul", "Colombo", "Contenda", "Doutor Ulysses", "Fazenda Rio Grande", "Itaperuçu", "Lapa", "Mandirituba", "Piên", "Pinhais", "Piraquara", "Quatro Barras", "Rio Branco do Sul", "Rio Negro", "São José dos Pinhais", "Quitandinha", "Tijucas do Sul", "Tunas do Paraná"]
+}

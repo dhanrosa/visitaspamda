@@ -1,0 +1,17 @@
+node_modules/
+test-results/
+playwright-report/
+.tmp/
+.env
+.env.*
+.env.local
+.env.*.local
+!.env.example
+*.log
+dist/
+# Arquivos legados privados. Os arquivos ja rastreados exigem revisao do Git.
+/data/leads.csv
+/base_mestra_pamda.csv
+/leads.json
+/registros_fora_da_area_para_revisar.csv
+/docs/previews/

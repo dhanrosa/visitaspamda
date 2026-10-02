@@ -1,0 +1,4 @@
+[
+  { "file": "./data/rmc-municipios.geojson", "label": "Municípios da RMC", "source": "IBGE" },
+  { "file": "./data/curitiba-regionais.geojson", "label": "Regionais de Curitiba", "source": "IPPUC" }
+]
