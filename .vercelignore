@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.git/
+.tmp/
+.vercel/
+test-results/
+playwright-report/
+tests/
+docs/previews/
+.env
+.env.*
+!.env.example
+**/*.csv
+leads.json
+*.log

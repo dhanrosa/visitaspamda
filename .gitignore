@@ -9,6 +9,8 @@ playwright-report/
 !.env.example
 *.log
 dist/
+.vercel/
+.vercel/
 # Arquivos legados privados. Os arquivos ja rastreados exigem revisao do Git.
 /data/leads.csv
 /base_mestra_pamda.csv

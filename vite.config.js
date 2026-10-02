@@ -13,6 +13,9 @@ const root = fileURLToPath(new URL('.', import.meta.url));
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, root, 'VITE_');
   const key = env.VITE_SUPABASE_PUBLISHABLE_KEY || '';
+  if (process.env.VERCEL === '1' && (!env.VITE_SUPABASE_URL || !key)) {
+    throw new Error('Configure VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY nas Environment Variables da Vercel e execute um novo deploy.');
+  }
   if (key && !/^sb_publishable_[A-Za-z0-9_-]+$/.test(key)) {
     throw new Error('VITE_SUPABASE_PUBLISHABLE_KEY deve conter uma chave publishable (sb_publishable_).');
   }

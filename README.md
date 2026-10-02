@@ -4,7 +4,7 @@ Aplicação interna de prospecção em JavaScript puro, Leaflet e MarkerCluster.
 
 ## Iniciar
 
-Node.js 22.12+ ou 24+.
+Node.js 24.x.
 
 ```powershell
 npm install
@@ -59,6 +59,20 @@ Para validar com o projeto real:
 
 ## Publicação e Git
 
+### Vercel
+
+O arquivo `vercel.json` configura Vite, instalação com `npm ci`, build e verificação de segurança, publicando somente `dist/`. O `.vercelignore` exclui arquivos locais e bases privadas do envio pela CLI.
+
+1. Importe o repositório na Vercel e selecione como **Root Directory** a pasta que contém `package.json` e `vercel.json`.
+2. Selecione **Node.js 24.x** nas configurações do projeto.
+3. Em **Environment Variables**, configure `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` com os valores do projeto Supabase (os mesmos usados em `.env.local`). Use somente a chave pública `sb_publishable_…`. Habilite os ambientes Production e Preview que deverão acessar esse projeto.
+4. Clique em **Deploy**. Ao alterar as variáveis, faça um novo deploy, pois elas entram no JavaScript durante o build.
+5. Abra a URL publicada, entre com um usuário existente e confira o mapa e a leitura das lojas.
+
+Para publicar pelo terminal com a CLI da Vercel: `npx vercel` cria uma publicação de preview; `npx vercel --prod` publica em produção. Configure as variáveis no painel antes do build. O projeto não precisa executar `server.cjs` nem manter um servidor Node em produção.
+
+Configuração conforme a [documentação oficial de Vite na Vercel](https://vercel.com/docs/frameworks/frontend/vite) e de [vercel.json](https://vercel.com/docs/project-configuration/vercel-json).
+
 Publique **somente `dist/`**, gerado por `npm run build`, em hospedagem estática HTTPS. Para conferir localmente: `npm run preview`. Configure as duas variáveis públicas no ambiente de build. Não publique a raiz do projeto.
 
 O build inclui HTML, código, estilos, Leaflet e os três arquivos cartográficos permitidos; não copia `data/` inteira. Vite bloqueia CSVs, `leads.json`, `.env`, Git, testes e documentos no desenvolvimento. O teste de segurança verifica arquivos privados, credenciais privilegiadas, sourcemaps e dependência do CSV no build.
@@ -70,7 +84,7 @@ O build inclui HTML, código, estilos, Leaflet e os três arquivos cartográfico
 - `leads.json`
 - `registros_fora_da_area_para_revisar.csv`
 
-Nenhuma remoção do índice ou reescrita de histórico foi executada. Revise antes de publicar. Os quatro podem ser retirados da aplicação após validar a migração real, mas os testes antigos de dados/geografia ainda usam o CSV e a base mestra como fixtures. `docs/IMPLEMENTACAO.md` descreve a arquitetura CSV histórica.
+Nenhuma remoção do índice ou reescrita de histórico foi executada. Revise antes de publicar. Os quatro podem ser retirados da aplicação após validar a migração real, Os testes de dados e geografia agora usam fixtures fict?cias e n?o dependem desses arquivos. `docs/IMPLEMENTACAO.md` descreve a arquitetura CSV histórica.
 
 Rascunhos antigos eventualmente presentes no navegador não são importados automaticamente. Guarde-os para auditoria se houver edições ainda não transferidas ao banco.
 
@@ -82,3 +96,5 @@ Rascunhos antigos eventualmente presentes no navegador não são importados auto
 Mapa-base OpenStreetMap; limites e seleção em [data/SOURCES.md](data/SOURCES.md). Sessão conforme a [documentação Supabase](https://supabase.com/docs/reference/javascript/auth-onauthstatechange).
 
 Build validado também em produção com respostas simuladas (login/sessão, leitura, filtros, mapa, UPDATE e celular). A consulta ao projeto Supabase real não teve conexão disponível nesta sessão; a validação autenticada real permanece pendente. Vite emite avisos sobre os scripts Leaflet copiados separadamente e imagens de ícones padrão ausentes; os marcadores personalizados usados pelo sistema foram verificados no desenvolvimento e no build. O build conclui sem erros.
+
+Para publicar na Vercel, siga [docs/VERCEL.md](docs/VERCEL.md). O arquivo vercel.json define o build seguro e a sa?da dist.
