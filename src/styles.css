@@ -18,3 +18,6 @@ dialog{border:1px solid #ffffff12;border-radius:16px;background:#1a231d;color:va
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 [hidden]{display:none!important}.login-view{min-height:100dvh;display:grid;place-items:center;padding:24px}.login-card{width:min(100%,390px);background:#1a241d;border:1px solid var(--line);padding:32px;border-radius:14px;display:grid;gap:14px}.login-card h1{margin:8px 0 0}.login-card p{color:var(--muted);font-size:13px;line-height:1.6}.login-card label{font-size:12px}.login-card input{width:100%;padding:12px;background:#111a14;border:1px solid #3b5142;border-radius:7px;color:var(--text)}.login-card .btn{justify-content:center;margin-top:8px}#sessionEmail{max-width:180px;text-overflow:ellipsis;overflow:hidden}@media(max-width:700px){#sessionEmail{display:none}.file-actions{flex-wrap:wrap}}
+
+/* Logo oficial Pamda Cases. */
+.brand-logo{display:block;width:120px;height:auto;flex-shrink:0;filter:invert(1);mix-blend-mode:screen}.login-card .brand-logo{width:210px;max-width:100%;justify-self:center;margin-bottom:8px}@media(max-width:700px){.brand .brand-logo{width:110px}}
